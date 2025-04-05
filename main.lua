@@ -18,6 +18,7 @@ local highScore = playdate.datastore.read("highscore") or 0
 local lives = 3
 local isPaused = false
 local respawnCooldown = 0
+local difficulty = 1
 
 -- Load assets
 local astrokittyLogo = gfx.image.new("assets/logos/astrokitty_logo.png")
@@ -32,6 +33,10 @@ local player = { x = 200, y = 120, vx = 0, vy = 0, angle = 0, radius = 8 }
 -- Game objects
 local bullets, asteroids, yarn, effects, stars = {}, {}, nil, {}, {}
 local screenShake = { dx = 0, dy = 0, timer = 0 }
+
+-- Load font
+local gameFont = gfx.getSystemFont(gfx.font.kVariantBold)
+gfx.setFont(gameFont)
 
 -- Cat face variants
 local catFaces = {
@@ -58,9 +63,6 @@ local function drawSpaceship(x, y, angle, flash)
         x + sinA * size * 0.6, y - cosA * size * 0.6
     )
 end
-
--- Hat types
-local hats = { "none", "party", "fez", "baseball", "cowboy", "top" }
 
 local function drawCatAsteroid(a)
     gfx.drawCircleAtPoint(a.x, a.y, a.r)
@@ -99,21 +101,24 @@ local function isFarEnough(x, y, minDist)
     return (dx * dx + dy * dy) >= (minDist * minDist)
 end
 
-local function spawnAsteroid()
+function spawnAsteroid()
     local r = math.random(8, 20)
     local attempts = 10
     local x, y
-
     repeat
         x = math.random(20, 380)
         y = math.random(20, 220)
         attempts -= 1
     until isFarEnough(x, y, 60) or attempts <= 0
 
+    local baseSpeed = 0.5
+    local speedScale = math.min(difficulty * 0.2, 2.0) -- cap max added speed
+    local speed = baseSpeed + math.random() * speedScale
+
     table.insert(asteroids, {
         x = x, y = y,
-        vx = math.random() * 1.5 * (math.random() < 0.5 and -1 or 1),
-        vy = math.random() * 1.5 * (math.random() < 0.5 and -1 or 1),
+        vx = speed * (math.random() < 0.5 and -1 or 1),
+        vy = speed * (math.random() < 0.5 and -1 or 1),
         r = r,
         face = math.random(1, #catFaces)
     })
@@ -150,6 +155,10 @@ local function updateGame()
     if isPaused then
         gfx.drawText("PAUSED", 180, 100)
         return
+    end
+
+    if pd.getElapsedTime() % 10 < 0.05 then
+        difficulty += 0.1
     end
 
     if respawnCooldown > 0 then respawnCooldown -= 1 end
@@ -263,8 +272,14 @@ local function updateGame()
         end
     end
 
-    -- Occasionally spawn new asteroids if count is low
-    if #asteroids < 5 and math.random() < 0.01 then
+    -- Increase difficulty gradually
+    if pd.getElapsedTime() % 10 < 0.05 then
+        difficulty += 0.1
+    end
+
+    -- Modify asteroid spawn logic
+    local spawnChance = 0.01 + (difficulty * 0.002)
+    if #asteroids < math.floor(5 + difficulty) and math.random() < spawnChance then
         spawnAsteroid()
     end
 
@@ -283,6 +298,14 @@ local function updateGame()
             table.insert(effects, { x = yarn.x, y = yarn.y, timer = 15, type = "sparkle" })
             yarn = nil
         end
+    end
+
+    -- Make yarn drift if not collected
+    if yarn then
+        local dir = math.random(1, 4)
+        if dir == 1 then yarn.x += 1 elseif dir == 2 then yarn.x -= 1 elseif dir == 3 then yarn.y += 1 else yarn.y -= 1 end
+        yarn.x = math.max(10, math.min(390, yarn.x))
+        yarn.y = math.max(10, math.min(230, yarn.y))
     end
 
     for i = #effects, 1, -1 do
@@ -355,7 +378,7 @@ function playdate.update()
     if state == "splash" then
         gfx.clear()
         astrokittyLogo:drawCentered(200, 120)
-        gfx.drawText("Press A to start", 50, 200)
+        gfx.drawText("Press A to start", 10, 200)
     elseif state == "game" or state == "dead" then
         updateGame()
     elseif state == "gameover" then

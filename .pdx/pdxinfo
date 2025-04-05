@@ -1,5 +1,7 @@
 name=astroKitty
+author=hyperjoule
 bundleID=com.hylitestudios.astrokitty
 version=1.0.0
+image=icon.png
 pdxversion=20601
-buildtime=797137671
+buildtime=797145950
