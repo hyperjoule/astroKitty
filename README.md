@@ -57,14 +57,6 @@ To sideload **astroKitty** to your Playdate:
 
 ---
 
-## 📝 Project Files
-
-Your project should include the following files and folders:
-
-astroKitty/ ├── main.lua ├── pdxinfo <-- Contains metadata, including icon reference (image=/icon.png) ├── icon.png <-- This image appears as your game icon in the Playdate menu ├── assets/ │ ├── logos/ │ │ └── astrokitty_logo.png │ ├── sounds/ │ │ ├── fire.wav │ │ ├── explosion.wav │ │ └── meow.wav │ └── music/ │ └── music.wav └── README.md
-
----
-
 ## ✨ Features
 
 - Two randomized cat face types 😺
