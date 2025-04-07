@@ -13,18 +13,18 @@
 - Collect yarn balls for extra points ✨
 - Survive long enough to beat your high score!
 
-Each asteroid has a unique kitty face, and their size affects how hard they are to take down. Larger cats have larger ears, and all of them are equally determined to bop your spaceship.
+Each asteroid has a unique kitty face that scales with its size—larger cats sport bigger ears and features. Dodge, blast, and collect yarn as you aim for a new high score!
 
 ---
 
 ## 🕹 Controls
 
-| Button         | Action                          |
-|----------------|----------------------------------|
-| `D-Pad / Crank`| Rotate the ship                 |
-| `Up / Down`    | Thrust forward / backward       |
-| `B Button`     | Fire weapon                     |
-| `A Button`     | Pause / Unpause / Start game    |
+| Button             | Action                            |
+|--------------------|------------------------------------|
+| `D-Pad / Crank`    | Rotate the ship                   |
+| `Up / Down`        | Thrust forward / backward         |
+| `B Button`         | Fire weapon                       |
+| `A Button`         | Pause / Unpause / Start game      |
 
 ---
 
@@ -33,11 +33,11 @@ Each asteroid has a unique kitty face, and their size affects how hard they are 
 To sideload **astroKitty** to your Playdate:
 
 1. **Build the game:**
-   - With [Playdate SDK](https://developer.play.date/), run:
+   - With the [Playdate SDK](https://developer.play.date/), run:
      ```sh
      pdc . astroKitty.pdx
      ```
-   - This will generate a `astroKitty.pdx` folder (the game bundle).
+   - This will generate an `astroKitty.pdx` folder (the game bundle).
 
 2. **Create a ZIP:**
    - On Windows:
@@ -57,26 +57,23 @@ To sideload **astroKitty** to your Playdate:
 
 ---
 
+## 📝 Project Files
+
+Your project should include the following files and folders:
+
+astroKitty/ ├── main.lua ├── pdxinfo <-- Contains metadata, including icon reference (image=/icon.png) ├── icon.png <-- This image appears as your game icon in the Playdate menu ├── assets/ │ ├── logos/ │ │ └── astrokitty_logo.png │ ├── sounds/ │ │ ├── fire.wav │ │ ├── explosion.wav │ │ └── meow.wav │ └── music/ │ └── music.wav └── README.md
+
+---
+
 ## ✨ Features
 
 - Two randomized cat face types 😺
-- Procedural asteroid movement with collision physics
+- Procedurally generated asteroid movement with collision physics
 - Screen shake and debris explosion effects
-- Yarn power-ups 🧶
+- Yarn power-ups 🧶 for bonus points
 - Retro vector-style graphics
 - Ambient background music and sound effects
 - High score saving across sessions
-
----
-
-## 📦 Folder Structure
-astroKitty/ ├── main.lua ├── assets/ │ ├── logos/ │ │ └── astrokitty_logo.png │ ├── sounds/ │ │ ├── fire.wav │ │ ├── explosion.wav │ │ └── meow.wav │ └── music/ │ └── music.wav └── README.md
-
----
-
-## 📜 License
-
-MIT License. See `LICENSE` file for details.
 
 ---
 
@@ -87,4 +84,4 @@ Published by **hyLite studios**
 
 ---
 
-**astroKitty** is a love letter to retro space shooters, vector graphics, and of course... cats. 😽💫
+**astroKitty** is a tribute to classic space shooters, retro vector graphics, and, of course, our feline friends. Enjoy blasting through cosmic cat chaos! 😽💫

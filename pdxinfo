@@ -1,5 +1,5 @@
 name=astroKitty
 author=hyperjoule
 bundleID=com.hylitestudios.astrokitty
-version=1.0.0
-image=icon.bmp
+version=1.0.1
+image=/icon.png
