@@ -1,5 +1,5 @@
 -- astroKitty main.lua
--- by hyperjoule for hyLite studios 
+-- by hyperjoule for hyLite studios
 
 import "CoreLibs/graphics"
 import "CoreLibs/sprites"
@@ -45,9 +45,9 @@ gfx.setFont(gameFont)
 -- Define white pattern and dither patterns for different gray shades (8x8 patterns)
 local whitePattern = { 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF }
 local ditherPatterns = {
-    { 0x55,0xAA,0x55,0xAA,0x55,0xAA,0x55,0xAA },  -- Medium gray
-    { 0x44,0x88,0x44,0x88,0x44,0x88,0x44,0x88 },  -- Slight variation
-    whitePattern                                    -- White (for white cats)
+    { 0x55,0xAA,0x55,0xAA,0x55,0xAA,0x55,0xAA },
+    { 0x44,0x88,0x44,0x88,0x44,0x88,0x44,0x88 },
+    whitePattern
 }
 
 -- Cat face variants scaled by cat size
@@ -85,11 +85,10 @@ local darkCatFace = function(x, y, r)
     else
         gfx.drawArc(x, y + 1 * scale, 2 * scale, 0, 180)
     end
-    gfx.setColor(gfx.kColorBlack)  -- Reset to black afterward
+    gfx.setColor(gfx.kColorBlack)
 end
 
 -- Draw a spaceship with a tail and ears, and a wiggling tail effect.
--- The tail wiggles based on the current time, creating a dynamic effect.
 local function drawSpaceship(x, y, angle, flash)
     if flash and (math.floor(respawnCooldown / 5) % 2 == 0) then return end
     local rad = math.rad(angle)
@@ -203,7 +202,7 @@ function spawnAsteroid()
     until isFarEnough(x, y, 60) or attempts <= 0
 
     local baseSpeed = 0.5
-    local speedScale = math.min(difficulty * 0.2, 2.0)
+    local speedScale = math.min(difficulty * 0.2, 4.0)  -- raised max scale to 4.0
     local speed = baseSpeed + math.random() * speedScale
 
     local chosenDither = ditherPatterns[math.random(#ditherPatterns)]
@@ -326,7 +325,7 @@ local function updateGame()
     end
 
     if pd.getElapsedTime() % 10 < 0.05 then
-        difficulty = difficulty + 0.05
+        difficulty = difficulty + 0.1  -- Increase difficulty faster
     end
 
     if respawnCooldown > 0 then
@@ -440,8 +439,8 @@ local function updateGame()
         end
     end
 
-    local spawnChance = 0.01 + (difficulty * 0.002)
-    if #asteroids < math.floor(5 + difficulty) and math.random() < spawnChance then
+    local spawnChance = 0.01 + (difficulty * 0.005)  -- increased multiplier for spawn chance
+    if #asteroids < math.floor(5 + difficulty * 3) and math.random() < spawnChance then
         spawnAsteroid()
     end
 
@@ -520,8 +519,8 @@ local function updateGame()
                         playdate.display.setRefreshRate(50)
                         if score > highScore then
                             highScore = score
-                            playdate.datastore.write(score, "highscore")
                         end
+                        playdate.datastore.write(highScore, "highscore")
                         state = "gameover"
                     end)
                     pd.timer.new(1000, function() end)

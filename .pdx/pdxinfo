@@ -1,7 +1,9 @@
 name=astroKitty
 author=hyperjoule
+description=Asteroids.... with cats!
 bundleID=com.hylitestudios.astrokitty
-version=1.0.0
-image=icon.bmp
+version=2.0
+buildNumber=100
+imagePath=system-assets
 pdxversion=20601
-buildtime=797376965
+buildtime=797381172
